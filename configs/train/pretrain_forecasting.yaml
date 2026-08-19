@@ -1,0 +1,20 @@
+{
+  "mode": "scratch_pretraining",
+  "objective": "forecasting",
+  "seed": 42,
+  "smoke_steps": 2,
+  "batch_size": 2,
+  "channels": 4,
+  "sequence_length": 128,
+  "learning_rate": 0.001,
+  "model": {
+    "d_model": 64,
+    "num_layers": 2,
+    "num_heads": 4,
+    "patch_size": 8,
+    "horizon": 8,
+    "max_channels": 64,
+    "max_conditions": 32,
+    "causal": true
+  }
+}

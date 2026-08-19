@@ -1,0 +1,23 @@
+{
+  "mode": "incremental_pretraining",
+  "model_version": "machiningfm-small-incremental-smoke",
+  "seed": 42,
+  "smoke_steps": 1,
+  "batch_size": 2,
+  "channels": 4,
+  "condition_count": 5,
+  "sequence_length": 128,
+  "learning_rate": 0.0005,
+  "new_data_ratio": 0.5,
+  "replay_data_ratio": 0.5,
+  "checkpoint_path": "outputs/checkpoints/machiningfm_incremental_smoke.pt",
+  "model": {
+    "d_model": 64,
+    "num_layers": 2,
+    "num_heads": 4,
+    "patch_size": 8,
+    "horizon": 8,
+    "max_channels": 64,
+    "max_conditions": 32
+  }
+}

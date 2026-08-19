@@ -1,0 +1,25 @@
+{
+  "base_config_path": "src/machiningfm_v2/configs/small.yaml",
+  "model_version": "machiningfm-v2-smoke",
+  "device": "cpu",
+  "batch_size": 1,
+  "gradient_accumulation_steps": 1,
+  "max_steps": 1,
+  "init_from_v1_checkpoint": null,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_smoke",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_smoke.jsonl",
+  "model": {
+    "d_model": 64,
+    "fusion_layers": 1,
+    "num_heads": 4,
+    "forecast_horizons": [64],
+    "frequency_length": 64
+  },
+  "data": {
+    "data_roots": [],
+    "sequence_length": 256,
+    "frequency_length": 64,
+    "forecast_horizons": [64],
+    "synthetic_if_empty": true
+  }
+}

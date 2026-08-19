@@ -1,0 +1,7 @@
+{
+  "splits": ["leave-one-tool-out", "leave-one-machine-out", "leave-one-condition-out", "leave-one-dataset-out", "chronological"],
+  "modes": ["zero-shot", "one-shot", "few-shot-k3", "few-shot-k5", "few-shot-k10", "linear-probe", "supervised-baseline"],
+  "regression_metrics": ["MAE", "RMSE", "R2", "sMAPE"],
+  "classification_metrics": ["Accuracy", "Balanced Accuracy", "Macro-F1", "AUROC"],
+  "forecasting_metrics": ["MAE", "RMSE", "sMAPE", "MASE"]
+}

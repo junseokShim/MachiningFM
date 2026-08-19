@@ -1,0 +1,48 @@
+{
+  "model_version": "machiningfm-v2-small",
+  "device": "cuda",
+  "batch_size": 1,
+  "num_workers": 0,
+  "epochs": 1,
+  "max_steps": 1000,
+  "gradient_accumulation_steps": 8,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.0001,
+  "precision": "bf16",
+  "amp": true,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_small",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_small.jsonl",
+  "init_from_v1_checkpoint": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe/machiningfm_full_pretrain_best.pt",
+  "migration_report_path": "outputs/reports/machiningfm_v2_small_migration_report.json",
+  "model": {
+    "d_model": 192,
+    "fusion_layers": 2,
+    "num_heads": 6,
+    "dropout": 0.1,
+    "forecast_horizons": [64, 1280, 12800],
+    "output_channels": 3,
+    "frequency_length": 512,
+    "metadata_dim": 32
+  },
+  "data": {
+    "data_roots": ["C:\\Users\\심준석\\Desktop\\workspace\\99.데이터"],
+    "sequence_length": 4096,
+    "frequency_length": 512,
+    "frequency_transforms": ["fft", "stft", "cwt"],
+    "forecast_horizons": [64, 1280, 12800],
+    "max_raw_channels": 16,
+    "max_cnc_channels": 64,
+    "max_nc_blocks": 512,
+    "default_high_rate_hz": 12800.0,
+    "synthetic_if_empty": true
+  },
+  "loss": {
+    "forecasting": {
+      "huber": 1.0,
+      "rms": 0.6,
+      "stft": 0.3,
+      "derivative": 0.2,
+      "nll": 0.2
+    }
+  }
+}

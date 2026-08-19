@@ -1,0 +1,34 @@
+# Default physics parameters for generic carbide tool / steel workpiece
+# These are literature values — calibrate to your specific material/tool combination.
+# Source: Shaw (2005), "Metal Cutting Principles", 2nd ed., MIT Press
+
+material: generic_steel
+tool: carbide
+
+taylor:
+  C: 200.0          # m/min — Taylor constant (speed for 1-min tool life at f=1mm/rev, ap=1mm)
+  n: 0.25           # Speed exponent
+  m: 0.0            # Feed exponent (0 = basic Taylor, not generalized)
+  p: 0.0            # Depth exponent (0 = basic Taylor)
+  source: literature
+  reference: "Shaw (2005), Metal Cutting Principles, 2nd ed., MIT Press"
+
+kienzle:
+  kc_1_1_n_per_mm2: 1800.0   # N/mm² — specific cutting force at h=1mm, b=1mm
+  mc: 0.26                    # Kienzle exponent (dimensionless)
+  source: literature
+  reference: "Kienzle & Victor (1957), Werkstattstechnik und Maschinenbau, 47(5):224-225"
+
+archard:
+  wear_coefficient_k: 1.0e-4
+  hardness_h_n_per_mm2: 2000.0    # N/mm² ≈ HV 200 for medium carbon steel
+  source: literature
+  available: false
+  note: "Disabled by default. Enable only when normal_force_n and sliding_distance_mm are in dataset."
+
+usui:
+  B1: 1.0e-5    # Pre-exponential constant
+  B2: 4000.0    # Thermal activation parameter (K)
+  source: literature
+  available: false
+  note: "Disabled by default. Enable only when cutting_temperature_k is measured."

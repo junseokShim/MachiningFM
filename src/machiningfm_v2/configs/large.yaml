@@ -1,0 +1,12 @@
+{
+  "base_config_path": "src/machiningfm_v2/configs/base.yaml",
+  "model_version": "machiningfm-v2-large",
+  "gradient_accumulation_steps": 32,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_large",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_large.jsonl",
+  "model": {
+    "d_model": 768,
+    "fusion_layers": 12,
+    "num_heads": 12
+  }
+}

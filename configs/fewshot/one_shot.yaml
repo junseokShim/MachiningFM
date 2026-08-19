@@ -1,0 +1,5 @@
+{
+  "mode": "one-shot",
+  "adaptation_method": "embedding_nearest_neighbor",
+  "max_support_samples": 1
+}

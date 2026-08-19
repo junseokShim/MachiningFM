@@ -1,0 +1,33 @@
+schema_version: virtual-vibration-v1
+attachment: spindle
+description: >
+  Virtual spindle-mounted vibration sensor headers generated from CNC/controller
+  data at a configured sampling rate. The generated channels represent x, y,
+  and z-axis virtual acceleration/vibration signals at the spindle.
+sampling_rate_field: virtual_vibration_sampling_rate
+input_fields:
+  - cnc_series
+  - cnc_names
+  - process_condition
+headers:
+  - raw_name: virtual_spindle_vibration_x
+    canonical_name: external_sensor.spindle.vibration.x.raw
+    mount_component: spindle
+    quantity: vibration
+    axis: x
+    source: external_sensor
+    representation: raw
+  - raw_name: virtual_spindle_vibration_y
+    canonical_name: external_sensor.spindle.vibration.y.raw
+    mount_component: spindle
+    quantity: vibration
+    axis: y
+    source: external_sensor
+    representation: raw
+  - raw_name: virtual_spindle_vibration_z
+    canonical_name: external_sensor.spindle.vibration.z.raw
+    mount_component: spindle
+    quantity: vibration
+    axis: z
+    source: external_sensor
+    representation: raw

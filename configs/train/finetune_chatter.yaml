@@ -1,0 +1,7 @@
+{
+  "mode": "downstream_finetuning",
+  "task": "chatter_detection",
+  "backbone_mode": "freeze",
+  "smoke_steps": 2,
+  "model": {"d_model": 64, "num_layers": 2, "num_heads": 4, "patch_size": 8, "horizon": 8}
+}

@@ -1,0 +1,58 @@
+{
+  "mode": "scratch_pretraining_real",
+  "model_version": "machiningfm-small-stage1",
+  "seed": 42,
+  "device": "auto",
+  "epochs": 20,
+  "max_steps": null,
+  "batch_size": 16,
+  "num_workers": 0,
+  "drop_last": false,
+  "gradient_accumulation_steps": 1,
+  "gradient_clip_norm": 1.0,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.0001,
+  "amp": true,
+  "show_progress_bar": true,
+  "console_log_interval": "epoch",
+  "metrics_log_interval": "epoch",
+  "log_every_steps": 10,
+  "checkpoint_every_steps": 2000,
+  "checkpoint_dir": "outputs/checkpoints/full_pretrain_stage1",
+  "metrics_log_path": "outputs/training_logs/full_pretrain_stage1_epoch.jsonl",
+  "loss_weights": {
+    "masked_signal": 1.0,
+    "forecasting": 1.0,
+    "cross_channel": 0.25
+  },
+  "data": {
+    "manifest_path": "reports/manifest.parquet",
+    "sequence_length": 512,
+    "max_channels": 16,
+    "latent_context_path": "outputs/latent_context/full_pretrain_stage1_latent_context.json",
+    "windows_per_file": 4,
+    "max_read_attempts": 12,
+    "include_datasets": [
+      "cnc_machining",
+      "multivariate_time_series_data_of_milling_processes_with_varying_tool_wear_and_machine_tools"
+    ],
+    "extensions": [".h5", ".hdf5"]
+  },
+  "model": {
+    "name": "machiningfm-small-stage1",
+    "channel_schema_version": "cnc-v1",
+    "d_model": 768,
+    "num_layers": 12,
+    "num_heads": 12,
+    "ff_mult": 4,
+    "patch_size": 16,
+    "horizon": 32,
+    "max_channels": 16,
+    "channel_vocab_size": 4096,
+    "max_conditions": 64,
+    "text_vocab_size": 8192,
+    "max_text_tokens": 64,
+    "dropout": 0.1,
+    "causal": false
+  }
+}

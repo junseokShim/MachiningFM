@@ -1,0 +1,5 @@
+{
+  "mode": "few-shot",
+  "adaptation_method": "knn",
+  "k_values": [3, 5, 10, 20]
+}

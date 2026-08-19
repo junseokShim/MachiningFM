@@ -1,0 +1,16 @@
+{
+  "model_registry_path": "mlops/models/model_registry.json",
+  "serving_stage": "staging",
+  "default_model_name": "machiningfm",
+  "default_model_version": "machiningfm-small-smoke",
+  "fallback_model_version": "machiningfm-tiny-untrained-smoke",
+  "checkpoint_path": "outputs/checkpoints/full_pretrain_no_phm2010/machiningfm_full_pretrain_best.pt",
+  "inference_device": "cuda",
+  "enable_zero_shot": true,
+  "enable_one_shot": true,
+  "enable_few_shot": true,
+  "max_support_samples": 700,
+  "max_sequence_length": 8192,
+  "latent_context_path": "outputs/latent_context/full_pretrain_no_phm2010_latent_context.json",
+  "missing_variable_policy": "warn_and_continue"
+}

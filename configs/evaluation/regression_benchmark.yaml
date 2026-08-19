@@ -1,0 +1,7 @@
+{
+  "thresholds": {
+    "max_prediction_abs": 1000000.0,
+    "max_metric_regression_ratio": 0.1
+  },
+  "required_checks": ["api_inference_smoke", "missing_variable_robustness", "zero_shot", "one_shot", "few_shot", "leave_one_dataset_out"]
+}

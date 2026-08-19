@@ -1,0 +1,17 @@
+{
+  "base_config_path": "src/machiningfm_v2/configs/small.yaml",
+  "model_version": "machiningfm-v2-base",
+  "batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_base",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_base.jsonl",
+  "model": {
+    "d_model": 384,
+    "fusion_layers": 6,
+    "num_heads": 8
+  },
+  "data": {
+    "max_raw_channels": 32,
+    "max_cnc_channels": 128
+  }
+}

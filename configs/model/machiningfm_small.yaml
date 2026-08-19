@@ -1,0 +1,16 @@
+{
+  "name": "machiningfm-small",
+  "channel_schema_version": "cnc-v1",
+  "d_model": 256,
+  "num_layers": 6,
+  "num_heads": 8,
+  "ff_mult": 4,
+  "patch_size": 16,
+  "horizon": 32,
+  "max_channels": 128,
+  "max_conditions": 64,
+  "text_vocab_size": 8192,
+  "max_text_tokens": 64,
+  "dropout": 0.1,
+  "causal": false
+}

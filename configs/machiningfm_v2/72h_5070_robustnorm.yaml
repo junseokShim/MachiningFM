@@ -1,0 +1,21 @@
+{
+  "base_config_path": "configs/machiningfm_v2/72h_5070_normfix.yaml",
+  "model_version": "machiningfm-v2-5070-72h-robustnorm",
+  "resume_v2_checkpoint": "outputs/checkpoints/machiningfm_v2_5070_72h_normfix/machiningfm_v2_best.pt",
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_5070_72h_robustnorm",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_5070_72h_robustnorm.jsonl",
+  "outlier_log_threshold": 100.0,
+  "data": {
+    "normalization_transform": "asinh",
+    "target_scale_floor_abs": 0.0001
+  },
+  "loss": {
+    "forecasting": {
+      "huber": 1.0,
+      "rms": 0.6,
+      "stft": 0.3,
+      "derivative": 0.2,
+      "nll": 0.1
+    }
+  }
+}

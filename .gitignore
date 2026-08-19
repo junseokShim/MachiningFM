@@ -1,0 +1,41 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.DS_Store
+
+# Model checkpoints — keep on Hugging Face, not GitHub
+outputs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Dataset files — download with scripts/download_dataset.py
+data/raw/
+data/processed/
+*.h5
+*.hdf5
+*.parquet
+
+# Experiment results (large) — track selectively
+results/
+
+# Build artifacts
+dist/
+*.egg-info/
+build/
+
+# Reports / MLOps
+reports/*.parquet
+reports/*.format.json
+mlops/datasets/latest_file_snapshot.json
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/

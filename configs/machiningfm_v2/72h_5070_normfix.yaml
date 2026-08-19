@@ -1,0 +1,21 @@
+{
+  "base_config_path": "configs/machiningfm_v2/72h_5070.yaml",
+  "model_version": "machiningfm-v2-5070-72h-normfix",
+  "resume_v2_checkpoint": "outputs/checkpoints/machiningfm_v2_5070_72h/machiningfm_v2_best.pt",
+  "init_from_v1_checkpoint": null,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_5070_72h_normfix",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_5070_72h_normfix.jsonl",
+  "validation_ratio": 0.05,
+  "max_validation_batches": 256,
+  "scheduler_total_seconds": 259200,
+  "warmup_steps": 500,
+  "min_lr_ratio": 0.05,
+  "data": {
+    "file_extensions": [".csv", ".txt", ".npy", ".npz", ".h5", ".hdf5", ".parquet"],
+    "include_non_vibration_parquet": false,
+    "include_unpaired_cnc_files": false,
+    "synthetic_if_empty": false,
+    "synthetic_on_error": false,
+    "max_file_read_attempts": 64
+  }
+}

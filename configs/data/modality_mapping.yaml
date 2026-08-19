@@ -1,0 +1,7 @@
+{
+  "sensor_series": ["vibration", "acoustic_emission", "force", "torque", "current", "spindle_load", "temperature"],
+  "process_condition": ["spindle_speed", "feed_rate", "depth_of_cut", "width_of_cut", "tool_diameter", "material", "operation_type"],
+  "image": ["tool_wear_image", "workpiece_image", "chip_image", "spectrogram", "scalogram"],
+  "frequency": ["fft", "psd", "stft", "cwt"],
+  "audio": ["sound", "microphone"]
+}

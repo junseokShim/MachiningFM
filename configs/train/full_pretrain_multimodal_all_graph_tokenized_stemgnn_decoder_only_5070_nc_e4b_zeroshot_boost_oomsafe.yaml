@@ -1,0 +1,67 @@
+{
+  "base_config_path": "configs/train/full_pretrain_multimodal_all_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_global_restart.yaml",
+  "mode": "continued_pretraining_graph_tokenized_stemgnn_decoder_only_zeroshot_boost",
+  "model_version": "machiningfm-graph-tokenized-stemgnn-decoder-only-5070-nc-e4b-zeroshot-boost-oomsafe",
+  "resume_checkpoint": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_global_restart/machiningfm_full_pretrain_best.pt",
+  "resume_optimizer": false,
+  "continue_global_step": true,
+  "strict_checkpoint_load": false,
+  "seed": 44,
+  "batch_size": 1,
+  "num_workers": 0,
+  "persistent_workers": false,
+  "gradient_accumulation_steps": 64,
+  "learning_rate": 0.00003,
+  "gradient_clip_norm": 0.4,
+  "gradient_value_clip": 0.75,
+  "optimizer_foreach": false,
+  "optimizer_fused": false,
+  "epochs": 40,
+  "max_steps": null,
+  "checkpoint_every_steps": 0,
+  "save_optimizer_state": false,
+  "save_numbered_final_checkpoint": false,
+  "mask_ratio": 0.35,
+  "early_stopping": {
+    "enabled": true,
+    "metric": "mean_loss",
+    "mode": "min",
+    "patience": 10,
+    "min_delta": 0.001,
+    "save_best_checkpoint": true
+  },
+  "data": {
+    "sequence_length": 4096,
+    "max_channels": 128,
+    "frequency_length": 512,
+    "frequency_transforms": ["fft", "stft", "cwt"],
+    "nc_context_path": "outputs/nc_context/nc_context_cache_e4b.json",
+    "require_nc_context": true,
+    "generate_frequency": true,
+    "generate_virtual_vibration": true,
+    "virtual_vibration_mode": "if_missing"
+  },
+  "loss": {
+    "decoder_only": {
+      "next_token_prediction_weight": 0.7,
+      "masked_token_reconstruction_weight": 0.8,
+      "masked_high_rate_raw_reconstruction_weight": 1.2,
+      "masked_fft_reconstruction_weight": 0.8,
+      "frequency_band_reconstruction_weight": 0.7,
+      "cnc_low_rate_reconstruction_weight": 0.7,
+      "cnc_forecasting_weight": 0.8,
+      "cnc_to_high_rate_feature_generation_weight": 1.4,
+      "high_rate_cnc_alignment_weight": 0.6,
+      "cross_modal_alignment_weight": 0.5
+    },
+    "graph_token": {
+      "graph_token_next_prediction_weight": 0.8,
+      "masked_graph_token_reconstruction_weight": 0.9,
+      "cnc_graph_token_to_high_frequency_graph_token_generation_weight": 1.4,
+      "cross_graph_token_alignment_weight": 0.5,
+      "graph_token_contrastive_alignment_weight": 0.4
+    }
+  },
+  "checkpoint_dir": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe",
+  "metrics_log_path": "outputs/training_logs/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe.jsonl"
+}

@@ -1,0 +1,29 @@
+{
+  "mode": "scratch_pretraining",
+  "model_version": "machiningfm-small-smoke",
+  "seed": 42,
+  "smoke_steps": 2,
+  "batch_size": 2,
+  "channels": 4,
+  "condition_count": 5,
+  "sequence_length": 128,
+  "learning_rate": 0.001,
+  "loss_weights": {
+    "masked_signal": 1.0,
+    "forecasting": 1.0,
+    "cross_channel": 0.25
+  },
+  "checkpoint_path": "outputs/checkpoints/machiningfm_small.pt",
+  "model": {
+    "d_model": 64,
+    "num_layers": 2,
+    "num_heads": 4,
+    "ff_mult": 4,
+    "patch_size": 8,
+    "horizon": 8,
+    "max_channels": 64,
+    "max_conditions": 32,
+    "dropout": 0.1,
+    "causal": false
+  }
+}

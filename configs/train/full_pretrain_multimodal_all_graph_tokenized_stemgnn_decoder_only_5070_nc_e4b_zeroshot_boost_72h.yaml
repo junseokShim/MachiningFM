@@ -1,0 +1,31 @@
+{
+  "base_config_path": "configs/train/full_pretrain_multimodal_all_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe.yaml",
+  "mode": "continued_pretraining_graph_tokenized_stemgnn_decoder_only_zeroshot_boost_72h",
+  "model_version": "machiningfm-graph-tokenized-stemgnn-decoder-only-5070-nc-e4b-zeroshot-boost-72h",
+  "epochs": 500,
+  "max_steps": null,
+  "max_train_seconds": 259200,
+  "checkpoint_every_steps": 0,
+  "save_optimizer_state": false,
+  "save_numbered_final_checkpoint": false,
+  "heartbeat_interval_seconds": 1800,
+  "data": {
+    "generate_frequency": true,
+    "frequency_transforms": ["fft", "stft", "cwt"],
+    "frequency_length": 512,
+    "generate_virtual_vibration": true,
+    "virtual_vibration_mode": "if_missing",
+    "nc_context_path": "outputs/nc_context/nc_context_cache_e4b.json",
+    "require_nc_context": true
+  },
+  "early_stopping": {
+    "enabled": true,
+    "metric": "mean_loss",
+    "mode": "min",
+    "patience": 999,
+    "min_delta": 0.0005,
+    "save_best_checkpoint": true
+  },
+  "checkpoint_dir": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_72h",
+  "metrics_log_path": "outputs/training_logs/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_72h.jsonl"
+}

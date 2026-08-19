@@ -1,0 +1,18 @@
+{
+  "base_config_path": "configs/train/full_pretrain_multimodal_all_graph_tokenized_stemgnn_decoder_only_5070.yaml",
+  "mode": "continued_pretraining_graph_tokenized_stemgnn_decoder_only",
+  "model_version": "machiningfm-graph-tokenized-stemgnn-decoder-only-5070-nc-context-global-restart",
+  "resume_checkpoint": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070/machiningfm_full_pretrain_latest.pt",
+  "resume_optimizer": false,
+  "continue_global_step": true,
+  "strict_checkpoint_load": false,
+  "seed": 43,
+  "epochs": 5,
+  "max_steps": null,
+  "learning_rate": 0.00008,
+  "gradient_clip_norm": 0.5,
+  "gradient_value_clip": 1.0,
+  "checkpoint_every_steps": 1000,
+  "checkpoint_dir": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_global_restart",
+  "metrics_log_path": "outputs/training_logs/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_global_restart.jsonl"
+}

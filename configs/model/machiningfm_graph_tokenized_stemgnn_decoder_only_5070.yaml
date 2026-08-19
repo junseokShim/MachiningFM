@@ -1,0 +1,137 @@
+{
+  "name": "machiningfm-graph-tokenized-stemgnn-decoder-only-5070",
+  "architecture": "machiningfm_graph_tokenized_stemgnn_decoder_only",
+  "size_class": "local_rtx_5070",
+  "channel_schema_version": "cnc-v1",
+  "d_model": 2048,
+  "num_layers": 20,
+  "num_heads": 32,
+  "num_kv_heads": 8,
+  "ffn_dim": 8192,
+  "ffn_type": "swiglu",
+  "dropout": 0.1,
+  "attention_type": "causal",
+  "use_prefix_lm_attention": true,
+  "positional_embedding": "rope",
+  "rope_theta": 10000.0,
+  "max_sequence_length": 4096,
+  "graph_time_length": 512,
+  "patch_size": 32,
+  "horizon": 64,
+  "max_channels": 256,
+  "channel_vocab_size": 8192,
+  "max_conditions": 128,
+  "nc_context_dim": 128,
+  "text_vocab_size": 16384,
+  "max_text_tokens": 128,
+  "image_size": 128,
+  "image_patch_size": 16,
+  "material_vocab_size": 2048,
+  "material_family_vocab_size": 512,
+  "material_confidence_vocab_size": 16,
+  "modality_embedding": true,
+  "view_embedding": true,
+  "material_embedding": true,
+  "sampling_rate_embedding": true,
+  "missing_modality_embedding": true,
+  "subgraph_id_embedding": true,
+  "graph_token_embedding": true,
+  "dynamic_graph_summary_token": true,
+  "gradient_checkpointing": true,
+  "activation_checkpointing": true,
+  "mixed_precision": true,
+  "precision": "bf16",
+  "parameter_dtype": "bf16",
+  "gradient_accumulation_steps": 16,
+  "adaptive_graph_learning": {
+    "enabled": true,
+    "type": "stemgnn",
+    "use_dynamic_graph": true,
+    "use_metadata_prior": true,
+    "use_spectral_temporal_processing": true,
+    "input_variable_axis": "channel",
+    "graph_hidden_dim": 512,
+    "graph_projection_dim": 512,
+    "adjacency": {
+      "method": "latent_correlation",
+      "normalize": true,
+      "symmetric": true,
+      "top_k": 12,
+      "threshold": 0.05,
+      "temperature": 0.1,
+      "mix_metadata_prior": true,
+      "metadata_prior_weight": 0.2,
+      "learned_adjacency_weight": 0.8
+    },
+    "spectral": {
+      "use_graph_fourier": false,
+      "use_temporal_fft": true,
+      "fft_norm": "ortho",
+      "keep_real_imag": true,
+      "spectral_dropout": 0.1
+    },
+    "graph_propagation": {
+      "num_layers": 2,
+      "residual": true,
+      "dropout": 0.1
+    },
+    "diagnostics": {
+      "save_learned_adjacency": true,
+      "save_top_edges": true,
+      "max_saved_edges_per_batch": 128
+    }
+  },
+  "graph_tokenization": {
+    "enabled": true,
+    "source": "adaptive_graph_learning",
+    "graph_construction": {
+      "use_adaptive_graph": true,
+      "use_stemgnn_adjacency": true,
+      "use_physical_groups": true,
+      "use_channel_metadata": true,
+      "use_sampling_rate_groups": true,
+      "use_statistical_correlation": true,
+      "use_spectral_coherence": true,
+      "correlation_threshold": 0.60,
+      "coherence_threshold": 0.50,
+      "dynamic_adjacency_threshold": 0.05,
+      "dynamic_adjacency_top_k": 12,
+      "max_nodes_per_subgraph": 24,
+      "min_nodes_per_subgraph": 1
+    },
+    "subgraphs": {
+      "spindle_dynamics": {
+        "include_patterns": ["spindle", "vibration", "rpm", "load", "chatter"],
+        "views": ["high_rate_raw_timeseries", "high_rate_fft", "high_rate_time_frequency", "cnc_low_rate_timeseries"]
+      },
+      "feed_drive_x": {
+        "include_patterns": ["axis_x", "x_axis", "x.position", "x.load", "servo_x", "feed"],
+        "views": ["cnc_low_rate_timeseries"]
+      },
+      "feed_drive_y": {
+        "include_patterns": ["axis_y", "y_axis", "y.position", "y.load", "servo_y", "feed"],
+        "views": ["cnc_low_rate_timeseries"]
+      },
+      "feed_drive_z": {
+        "include_patterns": ["axis_z", "z_axis", "z.position", "z.load", "servo_z", "feed"],
+        "views": ["cnc_low_rate_timeseries"]
+      },
+      "cutting_condition": {
+        "include_patterns": ["feedrate", "spindle_speed", "tool", "depth_of_cut", "width_of_cut", "material"],
+        "views": ["process_condition", "material_context"]
+      },
+      "high_frequency_vibration": {
+        "include_patterns": ["vibration", "acceler", "acoustic", "fft", "spectrum", "spectral"],
+        "views": ["high_rate_raw_timeseries", "high_rate_fft", "high_rate_time_frequency"]
+      },
+      "cnc_operation_state": {
+        "include_patterns": ["gcode", "focas_current_gcode", "operation_mode", "tool_num", "tool_call_count"],
+        "views": ["cnc_low_rate_timeseries", "process_condition"]
+      },
+      "material_process_context": {
+        "include_patterns": ["material", "material_family", "material_confidence", "dataset_group", "machine_id", "process_condition"],
+        "views": ["material_context", "global_metadata", "text_or_latent_context"]
+      }
+    }
+  }
+}

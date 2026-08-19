@@ -1,0 +1,202 @@
+{
+  "mode": "scratch_pretraining_graph_tokenized_stemgnn_decoder_only",
+  "model_version": "machiningfm-graph-tokenized-stemgnn-decoder-only-large",
+  "model_config_path": "configs/model/machiningfm_graph_tokenized_stemgnn_decoder_only_large.yaml",
+  "seed": 42,
+  "device": "auto",
+  "epochs": 10,
+  "max_steps": null,
+  "batch_size": 1,
+  "num_workers": 0,
+  "drop_last": false,
+  "gradient_accumulation_steps": 16,
+  "gradient_clip_norm": 1.0,
+  "learning_rate": 0.0002,
+  "weight_decay": 0.0001,
+  "amp": true,
+  "precision": "bf16",
+  "show_progress_bar": true,
+  "log_every_steps": 10,
+  "checkpoint_every_steps": 1000,
+  "checkpoint_dir": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_large",
+  "metrics_log_path": "outputs/training_logs/full_pretrain_graph_tokenized_stemgnn_decoder_only_large.jsonl",
+  "mask_ratio": 0.25,
+  "data": {
+    "data_roots": [
+      "C:\\Users\\심준석\\Desktop\\workspace\\99.데이터"
+    ],
+    "manifest_path": "reports/manifest.parquet",
+    "inventory_path": "reports/data_inventory.csv",
+    "sequence_length": 8192,
+    "window_length_seconds": 1.0,
+    "max_channels": 256,
+    "latent_context_path": "outputs/latent_context/full_pretrain_all_numeric_latent_context.json",
+    "windows_per_file": 1,
+    "max_read_attempts": 128,
+    "generate_frequency": true,
+    "frequency_transforms": ["fft", "stft", "cwt"],
+    "frequency_length": 1024,
+    "frequency_bands": {
+      "low": [0, 100],
+      "mid": [100, 1000],
+      "high": [1000, null]
+    },
+    "image_size": 224,
+    "generate_virtual_vibration": true,
+    "virtual_vibration_sampling_rate": 1600.0,
+    "virtual_vibration_mode": "if_missing",
+    "virtual_vibration_default_spindle_rpm": 6000.0,
+    "include_datasets": [],
+    "exclude_datasets": [],
+    "extensions": [
+      ".h5",
+      ".hdf5",
+      ".csv",
+      ".txt",
+      ".log",
+      ".parquet",
+      ".npy",
+      ".npz",
+      ".xls",
+      ".xlsx",
+      ".json",
+      ".jsonl",
+      ".yaml",
+      ".yml",
+      ".md",
+      ".wav",
+      ".au",
+      ".aup",
+      ".flac",
+      ".mp3",
+      ".mat",
+      ".pdf",
+      ".sample",
+      ".stl",
+      ".stp",
+      ".ipynb",
+      ".mpf",
+      ".py",
+      ".idx",
+      ".pack",
+      ".rev",
+      "",
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".tif",
+      ".tiff",
+      ".bmp"
+    ]
+  },
+  "augmentation": {
+    "enabled": true,
+    "apply_to_train_only": true,
+    "physical_noise": {
+      "enabled": true,
+      "sensor_jitter_std_ratio": 0.005,
+      "amplitude_scale_range": [0.98, 1.02],
+      "bias_drift_ratio": 0.002,
+      "band_limited_noise_ratio": 0.005,
+      "phase_perturbation_max_rad": 0.05,
+      "frequency_shift_ratio": 0.01,
+      "random_band_attenuation_prob": 0.15,
+      "random_band_attenuation_range": [0.90, 1.00],
+      "speed_resampling_enabled": true,
+      "drop_channel_prob": 0.02,
+      "time_mask_prob": 0.05,
+      "time_mask_ratio": 0.03
+    },
+    "material_conditioned": {
+      "enabled": true,
+      "default_strength": "conservative",
+      "materials": {
+        "aluminum": {
+          "amplitude_scale_range": [0.98, 1.02],
+          "frequency_shift_ratio": 0.01
+        },
+        "S45C": {
+          "amplitude_scale_range": [0.98, 1.02],
+          "frequency_shift_ratio": 0.01
+        },
+        "unknown": {
+          "amplitude_scale_range": [0.99, 1.01],
+          "frequency_shift_ratio": 0.005
+        }
+      }
+    },
+    "time_frequency": {
+      "enabled": true,
+      "fft_enabled": true,
+      "stft_enabled": true,
+      "wavelet_enabled": false,
+      "frequency_mask_prob": 0.15,
+      "frequency_mask_ratio": 0.05,
+      "band_dropout_prob": 0.10,
+      "band_dropout_ratio": 0.08,
+      "spectral_gain_range": [0.97, 1.03],
+      "spectral_smoothing": true
+    },
+    "gan_synthetic": {
+      "enabled": false,
+      "synthetic_manifest": null,
+      "max_synthetic_ratio": 0.10,
+      "condition_keys": [
+        "dataset_group",
+        "operation_type",
+        "tool_id",
+        "spindle_speed",
+        "feedrate",
+        "material",
+        "subgraph_id",
+        "graph_token_id"
+      ]
+    },
+    "physics_synthetic": {
+      "enabled": false,
+      "provider": null,
+      "max_synthetic_ratio": 0.10,
+      "constraints": {
+        "wear_monotonicity": true,
+        "speed_feed_consistency": true,
+        "force_amplitude_consistency": true,
+        "material_condition_consistency": true,
+        "graph_token_consistency": true
+      }
+    }
+  },
+  "loss": {
+    "decoder_only": {
+      "next_token_prediction_weight": 1.0,
+      "masked_token_reconstruction_weight": 1.0,
+      "masked_high_rate_raw_reconstruction_weight": 1.0,
+      "masked_fft_reconstruction_weight": 0.7,
+      "frequency_band_reconstruction_weight": 0.5,
+      "time_frequency_patch_reconstruction_weight": 0.5,
+      "cnc_low_rate_reconstruction_weight": 0.5,
+      "cnc_forecasting_weight": 0.5,
+      "raw_to_fft_generation_weight": 0.5,
+      "fft_to_raw_feature_generation_weight": 0.5,
+      "cnc_to_high_rate_feature_generation_weight": 0.5,
+      "material_conditioned_generation_weight": 0.3,
+      "high_rate_cnc_alignment_weight": 0.2,
+      "cross_modal_alignment_weight": 0.2
+    },
+    "adaptive_graph": {
+      "adaptive_graph_sparsity_regularization_weight": 0.001,
+      "adaptive_graph_temporal_consistency_weight": 0.01,
+      "stemgnn_spectral_reconstruction_weight": 0.1
+    },
+    "graph_token": {
+      "graph_token_next_prediction_weight": 1.0,
+      "masked_graph_token_reconstruction_weight": 1.0,
+      "graph_token_to_graph_token_generation_weight": 0.5,
+      "cnc_graph_token_to_high_frequency_graph_token_generation_weight": 0.5,
+      "material_conditioned_graph_token_generation_weight": 0.3,
+      "raw_high_frequency_graph_token_to_fft_graph_token_generation_weight": 0.5,
+      "fft_graph_token_to_raw_feature_generation_weight": 0.5,
+      "cross_graph_token_alignment_weight": 0.2,
+      "graph_token_contrastive_alignment_weight": 0.2
+    }
+  }
+}

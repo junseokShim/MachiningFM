@@ -1,0 +1,17 @@
+{
+  "name": "machiningfm-base",
+  "channel_schema_version": "cnc-v1",
+  "d_model": 768,
+  "num_layers": 12,
+  "num_heads": 12,
+  "ff_mult": 4,
+  "patch_size": 16,
+  "horizon": 64,
+  "max_channels": 256,
+  "max_conditions": 128,
+  "text_vocab_size": 8192,
+  "max_text_tokens": 64,
+  "dropout": 0.1,
+  "causal": false,
+  "note": "Expansion config only. Do not run full training without a reviewed training plan."
+}

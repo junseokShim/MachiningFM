@@ -1,0 +1,7 @@
+{
+  "sota_targets": {
+    "toolwear_regression": {"dataset": "PHM2010", "metric": "RMSE", "value": null, "source": null},
+    "rul_prediction": {"dataset": "QIT_CEMC", "metric": "MAE", "value": null, "source": null},
+    "chatter_detection": {"dataset": "iCNC_Chatter", "metric": "Macro-F1", "value": null, "source": null}
+  }
+}

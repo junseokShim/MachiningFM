@@ -1,0 +1,499 @@
+schema_version: '1.0'
+datasets:
+- dataset_id: 7cghj7fffp
+  dataset_name: 7cghj7fffp
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\7cghj7fffp
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - future_forecasting
+  - surface_roughness_prediction
+  file_count: 7
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: accraw
+  dataset_name: AccRaw
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\AccRaw\01 1part\1 Face_1~5path
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - future_forecasting
+  - surface_roughness_prediction
+  file_count: 24
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: cnc_machining_data_repository
+  dataset_name: CNC Machining Data Repository
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\CNC Machining Data Repository
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: false
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - image
+  - process_condition
+  missing_modalities:
+  - audio
+  - frequency
+  - sensor_series
+  downstream_tasks:
+  - energy_prediction
+  - future_forecasting
+  - surface_roughness_prediction
+  file_count: 64
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: cnc_machining
+  dataset_name: CNC_Machining
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\CNC_Machining
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - surface_roughness_prediction
+  file_count: 1737
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: cs_label_data
+  dataset_name: CS_label_data
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\CS_label_data\blind_hole\1\cnc_data
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - surface_roughness_prediction
+  file_count: 616
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: edge_oti_2_v3
+  dataset_name: EDGE_OTI_2(V3)
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\EDGE_OTI_2(V3)
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: S45C
+  workpiece_material_family: carbon_steel
+  material_source: user_defined
+  material_confidence: high
+  known_sampling_rate: 4000.0
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - chatter_detection
+  - surface_roughness_prediction
+  file_count: 11
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: hack
+  dataset_name: HACK
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\HACK\01. Cutting_tool_data\case1_run1
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - image
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  downstream_tasks:
+  - chatter_detection
+  - surface_roughness_prediction
+  file_count: 601
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: just_cas_milling
+  dataset_name: JUST_CAS_milling
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\JUST_CAS_milling
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks: []
+  file_count: 115
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: macromilling
+  dataset_name: Macromilling
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\Macromilling
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: false
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  - sensor_series
+  downstream_tasks: []
+  file_count: 1
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: millingsurfaceroughness
+  dataset_name: MillingSurfaceRoughness
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\MillingSurfaceRoughness
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - audio
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - frequency
+  - image
+  downstream_tasks:
+  - surface_roughness_prediction
+  file_count: 7768
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: multivariate_time_series_data_of_milling_processes_with_varying_tool_wear_and_machine_tools
+  dataset_name: Multivariate time series data of milling processes with varying tool
+    wear and machine tools
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\Multivariate time series data
+    of milling processes with varying tool wear and machine tools
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - future_forecasting
+  - toolwear_regression
+  file_count: 6419
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: nonastreda_multimodal_dataset_for_identifying_tool_wear_condition
+  dataset_name: Nonastreda Multimodal Dataset for Identifying Tool Wear Condition
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\Nonastreda Multimodal Dataset
+    for Identifying Tool Wear Condition
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: false
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - image
+  - process_condition
+  missing_modalities:
+  - audio
+  - frequency
+  - sensor_series
+  downstream_tasks:
+  - future_forecasting
+  - surface_roughness_prediction
+  - toolwear_regression
+  file_count: 4611
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: phm2010
+  dataset_name: PHM2010
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\PHM2010\c1
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: false
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  - sensor_series
+  downstream_tasks:
+  - toolwear_regression
+  file_count: 948
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: qit_cemc
+  dataset_name: QIT_CEMC
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\QIT_CEMC
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - image
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  downstream_tasks:
+  - future_forecasting
+  - surface_roughness_prediction
+  - toolwear_regression
+  file_count: 590
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: t4000
+  dataset_name: T4000
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\T4000
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: aluminum
+  workpiece_material_family: nonferrous_metal
+  material_source: user_defined
+  material_confidence: high
+  known_sampling_rate: 12800.0
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - image
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  downstream_tasks:
+  - surface_roughness_prediction
+  file_count: 10119
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: mill
+  dataset_name: mill
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\mill
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: false
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities: []
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  - process_condition
+  - sensor_series
+  downstream_tasks: []
+  file_count: 2
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: origin
+  dataset_name: origin
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\origin
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - process_condition
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  downstream_tasks:
+  - future_forecasting
+  file_count: 300
+  notes: Automatically inferred; verify semantics, license, and split groups.
+- dataset_id: vdmp
+  dataset_name: vdmp
+  source_path: C:\Users\심준석\Desktop\workspace\99.데이터\vdmp
+  process_type: machining
+  machine_type: null
+  tool_type: null
+  workpiece_material: null
+  workpiece_material_family: null
+  material_source: null
+  material_confidence: null
+  known_sampling_rate: null
+  license: null
+  citation: null
+  raw_available: true
+  feature_only: false
+  synthetic_suspected: false
+  available_modalities:
+  - sensor_series
+  missing_modalities:
+  - audio
+  - frequency
+  - image
+  - process_condition
+  downstream_tasks:
+  - surface_roughness_prediction
+  file_count: 2
+  notes: Automatically inferred; verify semantics, license, and split groups.

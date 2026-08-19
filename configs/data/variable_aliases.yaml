@@ -1,0 +1,30 @@
+{
+  "channel_schema_version": "cnc-v1",
+  "canonical_name_format": "source.component.quantity.axis.representation",
+  "aliases": {
+    "vibration_x": ["vibration_data:0", "vx", "acc1 value", "AI1-01[m/s^2]", "virtual_spindle_vibration_x"],
+    "vibration_y": ["vibration_data:1", "vy", "acc2 value", "AI1-02[m/s^2]", "virtual_spindle_vibration_y"],
+    "vibration_z": ["vibration_data:2", "vz", "acc3 value", "AI1-03[m/s^2]", "virtual_spindle_vibration_z"],
+    "force_x": ["fx", "force_sensor_x"],
+    "force_y": ["fy", "force_sensor_y"],
+    "force_z": ["fz", "force_sensor_z"],
+    "torque_x": ["mx", "torque_axis_x"],
+    "torque_y": ["my", "torque_axis_y"],
+    "torque_z": ["mz", "torque_axis_z"],
+    "spindle_torque": ["torque_spindle"],
+    "current_u": ["iu"],
+    "current_v": ["iv"],
+    "current_w": ["iw"],
+    "spindle_speed": ["sn", "rpm", "spindle_rpm", "actual rpm"],
+    "spindle_speed_command": ["command rpm"],
+    "feed_rate": ["feed", "feed_rate", "actual feedrate"],
+    "feed_rate_command": ["command feedrate"],
+    "spindle_load": ["spindle_load", "actLoad"],
+    "sound_pressure": ["AI1-07[Pa]"],
+    "axis_position_x": ["abs_x", "mechanical_x"],
+    "axis_position_y": ["abs_y", "mechanical_y"],
+    "axis_position_z": ["abs_z", "mechanical_z"],
+    "tool_wear_vb": ["wear", "vb", "tool_wear"],
+    "surface_roughness": ["ra", "roughness", "surface_roughness"]
+  }
+}

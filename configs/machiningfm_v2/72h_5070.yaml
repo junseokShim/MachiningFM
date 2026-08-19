@@ -1,0 +1,30 @@
+{
+  "base_config_path": "src/machiningfm_v2/configs/base.yaml",
+  "model_version": "machiningfm-v2-5070-72h",
+  "device": "cuda",
+  "batch_size": 1,
+  "num_workers": 0,
+  "cpu_threads": 2,
+  "epochs": 500,
+  "max_steps": null,
+  "max_train_seconds": 259200,
+  "gradient_accumulation_steps": 32,
+  "learning_rate": 0.0002,
+  "checkpoint_dir": "outputs/checkpoints/machiningfm_v2_5070_72h",
+  "metrics_log_path": "outputs/training_logs/machiningfm_v2_5070_72h.jsonl",
+  "init_from_v1_checkpoint": "outputs/checkpoints/full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe/machiningfm_full_pretrain_best.pt",
+  "use_graph_tokenized_v1_semantic_init": true,
+  "migration_report_path": "outputs/reports/machiningfm_v2_5070_72h_migration_report.json",
+  "data": {
+    "data_roots": ["C:\\Users\\심준석\\Desktop\\workspace\\99.데이터"],
+    "sequence_length": 4096,
+    "frequency_length": 512,
+    "frequency_transforms": ["fft", "stft", "cwt"],
+    "forecast_horizons": [64, 1280, 12800],
+    "max_raw_channels": 32,
+    "max_cnc_channels": 128,
+    "max_nc_blocks": 512,
+    "default_high_rate_hz": 12800.0,
+    "synthetic_if_empty": true
+  }
+}
