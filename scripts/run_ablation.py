@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
 """
-Full ablation study: physics modules × few-shot sample counts.
+Ablation study: physics modules × few-shot sample counts.
 
-Tests Hypothesis 3: Physics calibration is more beneficial in few-shot settings.
+Tests H3: Physics calibration is more beneficial in few-shot settings.
 
-Usage (statistical features — no backbone):
-    python scripts/run_ablation.py --dataset phm2010 --data-dir data/raw/phm2010
-
-Usage (real backbone embeddings — recommended):
-    python scripts/run_ablation.py --dataset phm2010 --data-dir data/raw/phm2010 \\
-        --backbone-checkpoint pretrained/machiningfm_v2_base.pt
-
-Usage (auto-download backbone from HF):
-    python scripts/run_ablation.py --dataset phm2010 --data-dir data/raw/phm2010 \\
-        --backbone-hf
+Usage:
+    python scripts/run_ablation.py --data-dir data/raw/phm2010
+    python scripts/run_ablation.py --data-dir data/raw/phm2010 --device mps --max-len 4096
 
 Results saved to results/phm2010/ablation/.
 """
@@ -23,7 +16,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import numpy as np
 import yaml
 
 _ROOT = Path(__file__).parent.parent
@@ -32,37 +24,22 @@ sys.path.append(str(_ROOT / "src"))
 
 from machiningfm.data.datasets import PHM2010Dataset
 from machiningfm.evaluation.ablation import DEFAULT_ABLATION_CONFIGS, run_ablation_study
+from machiningfm.models.encoder import extract_embeddings, load_backbone
 from machiningfm.physics.calibration import PhysicsFeatures
 from machiningfm.physics.taylor import TaylorParams, compute_tool_life_ratio
 
-
-def _load_features(
-    ds: PHM2010Dataset,
-    backbone=None,
-    batch_size: int = 16,
-    device: str = "cpu",
-    max_len: int = 4096,
-) -> np.ndarray:
-    """Return feature matrix: backbone embeddings if backbone given, else statistical features."""
-    if backbone is not None:
-        from machiningfm.models.encoder import extract_embeddings
-        raw_signals = ds.get_raw_signals()
-        if len(raw_signals) != len(ds):
-            raise RuntimeError(
-                f"Only {len(raw_signals)} raw signals for {len(ds)} samples. "
-                "Ensure PHM2010 CSV files are present."
-            )
-        return extract_embeddings(backbone, raw_signals, batch_size=batch_size,
-                                  device=device, max_len=max_len)
-    X, _ = ds.get_features_and_targets()
-    return X
+_DEFAULT_CKPT = (
+    "outputs/checkpoints/"
+    "full_pretrain_graph_tokenized_stemgnn_decoder_only_5070_nc_e4b_zeroshot_boost_oomsafe/"
+    "machiningfm_full_pretrain_best.pt"
+)
 
 
-def build_physics_features_for_dataset(
+def build_physics_features(
     dataset: PHM2010Dataset,
     taylor_params: TaylorParams | None,
 ) -> list[PhysicsFeatures]:
-    features = []
+    out = []
     for sample in dataset.samples:
         pf = PhysicsFeatures()
         if taylor_params is not None:
@@ -75,51 +52,33 @@ def build_physics_features_for_dataset(
                     params=taylor_params,
                 )
             except Exception:
-                pf.tool_life_ratio = None
-        features.append(pf)
-    return features
+                pass
+        out.append(pf)
+    return out
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Ablation study for physics-guided MachiningFM.")
-    parser.add_argument("--dataset", default="phm2010")
     parser.add_argument("--data-dir", default="data/raw/phm2010")
+    parser.add_argument("--checkpoint", default=_DEFAULT_CKPT,
+                        help="Path to pretrained backbone checkpoint (.pt).")
+    parser.add_argument("--device", default="cpu")
+    parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument("--max-len", type=int, default=512,
+                        help="Signal tail-truncation length. Use 4096+ on GPU.")
     parser.add_argument("--physics-config", default="configs/physics/default.yaml")
     parser.add_argument("--test-conditions", nargs="*", default=["c6"])
     parser.add_argument("--val-conditions", nargs="*", default=["c5"])
     parser.add_argument("--output-dir", default="results/phm2010/ablation")
     parser.add_argument("--seed", type=int, default=42)
-    # Backbone args
-    parser.add_argument(
-        "--backbone-checkpoint", default=None,
-        help="Path to local pretrained checkpoint (.pt). "
-             "Enables backbone embeddings instead of statistical features.",
-    )
-    parser.add_argument(
-        "--backbone-hf", action="store_true",
-        help="Download backbone checkpoint from Hugging Face Hub.",
-    )
-    parser.add_argument("--hf-repo-id", default="Junseok2/MachiningFM2.0")
-    parser.add_argument("--device", default="cpu", help="PyTorch device (cpu/cuda/mps).")
-    parser.add_argument("--batch-size", type=int, default=16, help="Backbone encoding batch size.")
-    parser.add_argument("--max-len", type=int, default=512, help="Signal truncation length for backbone (tail-truncation). Use 4096+ on GPU.")
     args = parser.parse_args()
 
-    use_backbone = args.backbone_checkpoint is not None or args.backbone_hf
-
     print("=== Ablation Study ===")
-    print(f"Dataset    : {args.dataset}")
-    print(f"Data dir   : {args.data_dir}")
-    print(f"Test conds : {args.test_conditions}")
-    print(f"Val conds  : {args.val_conditions}")
-    if use_backbone:
-        src = args.backbone_checkpoint if args.backbone_checkpoint else f"HF:{args.hf_repo_id}"
-        print(f"Backbone   : {src} (d=384)")
-    else:
-        print("Backbone   : None — using statistical features (49-dim)")
-        print("             Pass --backbone-checkpoint or --backbone-hf to use real backbone.")
+    print(f"Checkpoint : {args.checkpoint}")
+    print(f"Device     : {args.device}  |  max_len={args.max_len}")
+    print(f"Test conds : {args.test_conditions}  |  Val conds : {args.val_conditions}")
 
-    # Load datasets
+    # Load data
     try:
         train_ds = PHM2010Dataset(
             args.data_dir, "train",
@@ -144,34 +103,31 @@ def main() -> None:
         )
     except FileNotFoundError as e:
         print(f"\nERROR: {e}")
-        print("Create synthetic data:")
-        print(f"  python scripts/download_dataset.py --dataset phm2010 --create-synthetic --output {args.data_dir}")
         sys.exit(1)
 
-    # Load backbone (once, shared across all splits)
-    backbone = None
-    if use_backbone:
-        from machiningfm.models.encoder import load_backbone
-        ckpt = None if args.backbone_hf else args.backbone_checkpoint
-        backbone = load_backbone(
-            checkpoint_path=ckpt,
-            hf_repo_id=args.hf_repo_id,
-            backbone_mode="frozen",
-            device=args.device,
-        )
-        print(f"Backbone loaded. d_model={backbone.d_model}, device={args.device}")
+    # Load backbone
+    backbone = load_backbone(
+        checkpoint_path=args.checkpoint,
+        backbone_mode="frozen",
+        device=args.device,
+    )
+    print(f"Backbone   : {backbone.architecture}  d_model={backbone.d_model}\n")
 
-    # Extract features
-    print("\nExtracting features ...")
-    X_train = _load_features(train_ds, backbone, args.batch_size, args.device, args.max_len)
-    X_val   = _load_features(val_ds,   backbone, args.batch_size, args.device, args.max_len)
-    X_test  = _load_features(test_ds,  backbone, args.batch_size, args.device, args.max_len)
+    # Encode all splits
+    print("Encoding signals ...")
+    X_train = extract_embeddings(backbone, train_ds.get_raw_signals(),
+                                 batch_size=args.batch_size, device=args.device, max_len=args.max_len)
+    X_val   = extract_embeddings(backbone, val_ds.get_raw_signals(),
+                                 batch_size=args.batch_size, device=args.device, max_len=args.max_len)
+    X_test  = extract_embeddings(backbone, test_ds.get_raw_signals(),
+                                 batch_size=args.batch_size, device=args.device, max_len=args.max_len)
+
     _, y_train = train_ds.get_features_and_targets()
     _, y_val   = val_ds.get_features_and_targets()
     _, y_test  = test_ds.get_features_and_targets()
 
-    print(f"Feature dim: {X_train.shape[1]}  "
-          f"Train/Val/Test: {len(X_train)}/{len(X_val)}/{len(X_test)}")
+    print(f"Feature dim : {X_train.shape[1]}")
+    print(f"Train / Val / Test : {len(X_train)} / {len(X_val)} / {len(X_test)}")
 
     # Physics config
     physics_config: dict = {}
@@ -189,12 +145,12 @@ def main() -> None:
             p=tc.get("p", 0.0),
         )
 
-    pf_train = build_physics_features_for_dataset(train_ds, taylor_params)
-    pf_val   = build_physics_features_for_dataset(val_ds, taylor_params)
-    pf_test  = build_physics_features_for_dataset(test_ds, taylor_params)
+    pf_train = build_physics_features(train_ds, taylor_params)
+    pf_val   = build_physics_features(val_ds, taylor_params)
+    pf_test  = build_physics_features(test_ds, taylor_params)
 
     # Run ablation
-    print("\nRunning ablation study...")
+    print("\nRunning ablation ...")
     results_df = run_ablation_study(
         X_train, y_train, X_val, y_val, X_test, y_test,
         physics_features_train=pf_train,
