@@ -1,12 +1,17 @@
 """
 Utility for extracting MachiningFM backbone embeddings from raw sensor signals.
 
+Supports both pretrained checkpoints automatically:
+  - machiningfm_full_pretrain_best.pt  (7.4GB, d_model=2048, 1.32B params)
+  - machiningfm_v2_best.pt             (170MB, d_model=384,  ~17M params)
+
 Usage:
     from machiningfm.models.encoder import load_backbone, extract_embeddings
 
-    backbone = load_backbone("pretrained/machiningfm_v2_base.pt", device="cpu")
-    embeddings = extract_embeddings(backbone, raw_signals, batch_size=16)
-    # embeddings: np.ndarray of shape (N, 384)
+    # Use the full pretrain checkpoint (recommended)
+    backbone = load_backbone("outputs/checkpoints/.../machiningfm_full_pretrain_best.pt")
+    embeddings = extract_embeddings(backbone, raw_signals, batch_size=4)
+    # embeddings: np.ndarray of shape (N, 2048)
 """
 from __future__ import annotations
 
@@ -19,8 +24,8 @@ import torch
 if TYPE_CHECKING:
     from machiningfm.models.backbone import MachiningFMBackbone
 
-# Config matching the uploaded pretrained checkpoint (base.yaml)
-PRETRAINED_CONFIG = {
+# Config for the small v2 checkpoint (machiningfm_v2_best.pt, ~170MB on HF)
+PRETRAINED_CONFIG_V2 = {
     "d_model": 384,
     "fusion_layers": 6,
     "num_heads": 8,
@@ -29,10 +34,12 @@ PRETRAINED_CONFIG = {
     "output_channels": 3,
 }
 
-# Default truncation length — keeps the last N time steps of each cut.
-# PHM2010 cuts have ~500 synthetic / ~50,000 real time steps.
-# The end of a cut carries the current wear state, so tail-truncation is appropriate.
-# 512 is fast on CPU (~6s for 120 samples); use 4096+ on GPU for fuller context.
+# Alias kept for backwards compatibility with tests
+PRETRAINED_CONFIG = PRETRAINED_CONFIG_V2
+
+# Default truncation length for raw signals before backbone encoding.
+# Keeps the LAST max_len time steps (end of cut = current wear state).
+# 512 is practical on CPU (~6 s for 120 samples). Use 4096+ on GPU for more context.
 DEFAULT_MAX_LEN = 512
 
 
@@ -46,8 +53,12 @@ def load_backbone(
     """
     Load MachiningFMBackbone from a local checkpoint or Hugging Face Hub.
 
+    Architecture is detected automatically from the checkpoint's model_config:
+      - machiningfm_graph_tokenized_stemgnn_decoder_only → full pretrain (d=2048)
+      - anything else → MachiningFMV2 (d=384)
+
     Args:
-        checkpoint_path: Local .pt file. If None, downloads from HF.
+        checkpoint_path: Local .pt file. If None, downloads from HF (v2 only).
         hf_repo_id: HF repo to download from when checkpoint_path is None.
         hf_filename: Filename within the HF repo.
         backbone_mode: 'frozen' | 'linear_probe' | 'partial_finetune' | 'full_finetune'
@@ -72,18 +83,18 @@ def load_backbone(
 
     backbone = MachiningFMBackbone(
         checkpoint_path=checkpoint_path,
-        config=PRETRAINED_CONFIG,
         backbone_mode=backbone_mode,
     )
     backbone = backbone.to(device)
     backbone.eval()
+    print(f"[encoder] Loaded {backbone.architecture} backbone, d_model={backbone.d_model}")
     return backbone
 
 
 def extract_embeddings(
     backbone: "MachiningFMBackbone",
     raw_signals: list[np.ndarray],
-    batch_size: int = 16,
+    batch_size: int = 4,
     device: str = "cpu",
     max_len: int = DEFAULT_MAX_LEN,
 ) -> np.ndarray:
@@ -91,22 +102,21 @@ def extract_embeddings(
     Run raw sensor signals through the frozen backbone and return embeddings.
 
     Each signal is padded or truncated to max_len time steps before encoding.
-    Padding uses zeros; truncation keeps the last max_len steps (end of cut is
-    most informative for wear state).
+    Padding uses zeros at the beginning; truncation keeps the LAST max_len steps
+    (end of cut carries current wear state).
 
     Args:
         backbone: Loaded MachiningFMBackbone instance.
         raw_signals: List of (T_i, C) float32 arrays (variable length OK).
         batch_size: Number of samples per forward pass.
         device: PyTorch device string.
-        max_len: Fixed sequence length for batching (truncate/pad).
+        max_len: Fixed sequence length for batching.
 
     Returns:
         np.ndarray of shape (N, d_model) — one embedding per signal.
     """
     if not raw_signals:
-        d_model = backbone.d_model
-        return np.zeros((0, d_model), dtype=np.float32)
+        return np.zeros((0, backbone.d_model), dtype=np.float32)
 
     backbone.eval()
     all_embeddings: list[np.ndarray] = []
@@ -119,7 +129,7 @@ def extract_embeddings(
         with torch.no_grad():
             out = backbone.encode({"raw_waveform": tensor})
 
-        emb = out["embedding"].cpu().numpy()  # (B, d_model)
+        emb = out["embedding"].cpu().float().numpy()  # (B, d_model)
         all_embeddings.append(emb)
 
     return np.concatenate(all_embeddings, axis=0).astype(np.float32)
@@ -129,9 +139,8 @@ def _pad_or_truncate_batch(signals: list[np.ndarray], max_len: int) -> np.ndarra
     """
     Pad/truncate a list of (T_i, C) arrays to a single (B, max_len, C) array.
 
-    Truncation keeps the LAST max_len steps (wear progression is monotonic;
-    the end of a cut carries the current wear state).
-    Padding adds zeros at the beginning so that valid data is at the end.
+    - Truncation: keep the LAST max_len steps.
+    - Padding: zeros prepended at the beginning so valid data is at the tail.
     """
     n_channels = signals[0].shape[1] if signals[0].ndim == 2 else 1
     batch = np.zeros((len(signals), max_len, n_channels), dtype=np.float32)
