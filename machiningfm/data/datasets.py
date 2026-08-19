@@ -82,6 +82,7 @@ class PHM2010Sample:
     feed_mm_per_tooth: float
     axial_depth_mm: float
     elapsed_time_min: float     # Approximate cumulative cutting time for this cut
+    raw_signal: np.ndarray | None = None  # Raw multi-channel signal (T, C) — for backbone encoding
 
 
 def _assign_split(
@@ -113,19 +114,19 @@ def _extract_wear_vb(row: pd.Series) -> float:
     raise ValueError(f"Cannot find wear column in labels: {cols}")
 
 
-def _load_cut_features(cut_file: Path) -> np.ndarray | None:
-    """Load one cut CSV and extract statistical sensor features."""
+def _load_cut_data(cut_file: Path) -> tuple[np.ndarray, np.ndarray] | tuple[None, None]:
+    """Load one cut CSV. Returns (statistical_features, raw_signal) or (None, None)."""
     try:
         df = pd.read_csv(cut_file)
         df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
         available = [ch for ch in SENSOR_CHANNELS if ch in df.columns]
         if not available:
-            return None
+            return None, None
         signal = df[available].values.astype(np.float64)
         feat_dict = extract_statistical_features(signal, available)
-        return np.array(list(feat_dict.values()), dtype=np.float32)
+        return np.array(list(feat_dict.values()), dtype=np.float32), signal.astype(np.float32)
     except Exception:
-        return None
+        return None, None
 
 
 class PHM2010Dataset:
@@ -229,7 +230,7 @@ class PHM2010Dataset:
                     continue
 
                 wear_vb_mm = _extract_wear_vb(label_row.iloc[0])
-                sensor_features = _load_cut_features(cut_file)
+                sensor_features, raw_signal = _load_cut_data(cut_file)
                 if sensor_features is None:
                     continue
 
@@ -242,11 +243,16 @@ class PHM2010Dataset:
                     feed_mm_per_tooth=PHM2010_NOMINAL_CONDITIONS["feed_mm_per_tooth"],
                     axial_depth_mm=PHM2010_NOMINAL_CONDITIONS["axial_depth_mm"],
                     elapsed_time_min=cut_number * self.time_per_cut_min,
+                    raw_signal=raw_signal,
                 ))
 
     def get_normalization_stats(self) -> dict[str, np.ndarray]:
         """Return normalization stats (only meaningful when called on the train split)."""
         return {"mean": self._feature_mean, "std": self._feature_std}
+
+    def get_raw_signals(self) -> list[np.ndarray]:
+        """Return list of raw sensor signals, each shape (T_i, C). Used for backbone encoding."""
+        return [s.raw_signal for s in self.samples if s.raw_signal is not None]
 
     def get_features_and_targets(self) -> tuple[np.ndarray, np.ndarray]:
         """Return (X, y) as numpy arrays for sklearn-style downstream training."""
